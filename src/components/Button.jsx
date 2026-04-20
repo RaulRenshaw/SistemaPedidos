@@ -1,4 +1,4 @@
-function Btn({ children, onClick, variant = "primary", style }) {
+export default function Btn({ children, onClick, variant = "primary", style }) {
   const base = {
     width: "100%", padding: "14px 20px", borderRadius: 12,
     fontSize: 16, fontWeight: 600, cursor: "pointer",

@@ -1,5 +1,4 @@
-
-function Dashboard({ services, onNovo, onOpen }) {
+export default function Dashboard({ services, onNovo, onOpen }) {
   const [filtro, setFiltro] = useState("todos");
 
   const filtrados = services.filter(s => {

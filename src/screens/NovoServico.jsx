@@ -1,5 +1,4 @@
-
-function NovoServico({ onBack, onCreate }) {
+export default function NovoServico({ onBack, onCreate }) {
   const [nome, setNome] = useState("");
   const [aparelho, setAparelho] = useState("");
   const [problema, setProblema] = useState("");

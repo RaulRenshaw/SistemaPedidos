@@ -1,5 +1,4 @@
-
-function ClienteView({ service, onBack }) {
+export default function ClienteView({ service, onBack }) {
   const stepIdx = STATUS_ORDER.indexOf(service.status);
   const s = STATUSES[service.status] || STATUSES.recebido;
 

@@ -1,5 +1,4 @@
-
-function Badge({ statusId }) {
+export default function Badge({ statusId }) {
   const s = STATUSES[statusId] || STATUSES.recebido;
   return (
     <span style={{

@@ -1,5 +1,5 @@
 
-const INITIAL_SERVICES = [
+export const INITIAL_SERVICES = [
   { id: 1, nome: "João Silva",     aparelho: "iPhone 14",      problema: "Tela quebrada",      status: "pronto"   },
   { id: 2, nome: "Maria Fernanda", aparelho: "Notebook Dell",  problema: "Não liga",           status: "conserto" },
   { id: 3, nome: "Carlos Mendes",  aparelho: "Samsung S23",    problema: "Câmera falhando",    status: "analise"  },

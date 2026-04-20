@@ -1,6 +1,4 @@
-
-
-function Input({ label, value, onChange, placeholder, multiline }) {
+export default function Input({ label, value, onChange, placeholder, multiline }) {
   const shared = {
     width: "100%", padding: "13px 14px",
     border: `1.5px solid ${G.border}`, borderRadius: 10,

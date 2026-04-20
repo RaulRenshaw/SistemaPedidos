@@ -1,44 +1,63 @@
-import { useState } from "react";
+import Dashboard from "./screens/Dashboard";
+import NovoServico from "./screens/NovoServico";
+import DetalheServico from "./screens/DetalheServico";
+import ClienteView from "./screens/ClienteView";
 
-// ─── App principal ────────────────────────────────────────────────────────────
+import { useServices } from "./hooks/useServices";
+import { useNavigation } from "./hooks/useNavigation";
 
 export default function App() {
-  const [services, setServices] = useState(INITIAL_SERVICES);
-  const [tela, setTela] = useState("dashboard");
-  const [selected, setSelected] = useState(null);
+  const {
+    services,
+    criarServico,
+    atualizarStatus,
+    getById,
+  } = useServices();
 
-  function handleCriar(novo) {
-    setServices(prev => [novo, ...prev]);
+  const {
+    tela,
+    selectedId,
+    abrirServico,
+    irParaNova,
+    voltarDashboard,
+    abrirCliente,
+  } = useNavigation();
+
+  const selected = selectedId ? getById(selectedId) : null;
+
+  if (tela === "novo") {
+    return (
+      <NovoServico
+        onBack={voltarDashboard}
+        onCreate={criarServico}
+      />
+    );
   }
 
-  function handleUpdateStatus(id, novoStatus) {
-    setServices(prev => prev.map(s => s.id === id ? { ...s, status: novoStatus } : s));
+  if (tela === "detalhe" && selected) {
+    return (
+      <DetalheServico
+        service={selected}
+        onBack={voltarDashboard}
+        onUpdateStatus={atualizarStatus}
+      />
+    );
   }
 
-  function abrirServico(s) {
-    setSelected(s);
-    setTela("detalhe");
+  if (tela === "cliente" && selected) {
+    return (
+      <ClienteView
+        service={selected}
+        onBack={() => abrirServico(selected.id)}
+      />
+    );
   }
-
-  const liveSelected = selected ? (services.find(s => s.id === selected.id) || selected) : null;
-
-  if (tela === "novo")    return <NovoServico onBack={() => setTela("dashboard")} onCreate={handleCriar} />;
-  if (tela === "detalhe" && liveSelected) return (
-    <DetalheServico
-      service={liveSelected}
-      onBack={() => setTela("dashboard")}
-      onUpdateStatus={handleUpdateStatus}
-    />
-  );
-  if (tela === "cliente" && liveSelected) return (
-    <ClienteView service={liveSelected} onBack={() => setTela("detalhe")} />
-  );
 
   return (
     <Dashboard
       services={services}
-      onNovo={() => setTela("novo")}
-      onOpen={abrirServico}
+      onNovo={irParaNova}
+      onOpen={(s) => abrirServico(s.id)}
     />
   );
 }

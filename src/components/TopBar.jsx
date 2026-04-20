@@ -1,5 +1,4 @@
-
-function TopBar({ title, onBack, right }) {
+export default function TopBar({ title, onBack, right }) {
   return (
     <div style={{
       background: G.white,

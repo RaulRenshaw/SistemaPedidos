@@ -1,5 +1,4 @@
-
-function DetalheServico({ service, onBack, onUpdateStatus }) {
+export default function DetalheServico({ service, onBack, onUpdateStatus }) {
   const [copiado, setCopiado] = useState(false);
   const stepIdx = STATUS_ORDER.indexOf(service.status);
   const s = STATUSES[service.status] || STATUSES.recebido;

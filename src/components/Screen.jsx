@@ -1,5 +1,4 @@
-
-function Screen({ children }) {
+export default function Screen({ children }) {
   return (
     <div style={{
       maxWidth: 390,
