@@ -1,3 +1,25 @@
+import Screen from "../components/Screen";
+import Btn from "../components/Button";
+import Dot from "../components/Dot";
+
+import { G } from "../constants/theme";
+import { STATUSES, STATUS_ORDER } from "../constants/status";
+
+function Card({ children, style }) {
+  return (
+    <div style={{
+      background: G.surface,
+      borderRadius: 14,
+      border: `1.5px solid ${G.border}`,
+      padding: 16,
+      marginBottom: 12,
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+}
+
 export default function ClienteView({ service, onBack }) {
   const stepIdx = STATUS_ORDER.indexOf(service.status);
   const s = STATUSES[service.status] || STATUSES.recebido;
@@ -12,79 +34,117 @@ export default function ClienteView({ service, onBack }) {
 
   return (
     <Screen>
-      <div style={{ background: G.green, padding: "20px", textAlign: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+      {/* Header da loja */}
+      <div style={{
+        background: G.surface,
+        borderBottom: `1px solid ${G.border}`,
+        padding: "16px 20px",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+      }}>
+        <div style={{
+          width: 32, height: 32, borderRadius: 8, background: G.green,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
             <path d="M10 2L3 6v8l7 4 7-4V6L10 2z" stroke="white" strokeWidth="1.5" fill="none"/>
             <circle cx="10" cy="10" r="2" fill="white"/>
           </svg>
-          <span style={{ color: "white", fontSize: 15, fontWeight: 600 }}>TechFix Assistência</span>
         </div>
+        <span style={{ color: G.text, fontSize: 15, fontWeight: 600 }}>TechFix Assistência</span>
       </div>
 
-      <div style={{ flex: 1, padding: "20px 16px", overflowY: "auto" }}>
+      <div style={{ flex: 1, padding: "16px 16px", overflowY: "auto" }}>
 
         {/* Info do cliente */}
-        <div style={{ background: G.white, borderRadius: 14, border: `1.5px solid ${G.border}`, padding: 16, marginBottom: 12 }}>
+        <Card style={{ padding: "4px 16px" }}>
           {[["Cliente", service.nome], ["Aparelho", service.aparelho], ["Problema", service.problema || "—"]].map(([label, val], i, arr) => (
             <div key={label} style={{
               display: "flex", justifyContent: "space-between",
-              padding: "10px 0",
+              padding: "11px 0",
               borderBottom: i < arr.length - 1 ? `1px solid ${G.border}` : "none",
             }}>
               <span style={{ fontSize: 13, color: G.muted }}>{label}</span>
               <span style={{ fontSize: 14, fontWeight: 500, color: G.text }}>{val}</span>
             </div>
           ))}
-        </div>
+        </Card>
 
         {/* Status */}
-        <div style={{
-          background: s.bg, border: `1.5px solid ${s.dot}44`,
-          borderRadius: 16, padding: "20px", textAlign: "center", marginBottom: 12,
-        }}>
-          <div style={{ fontSize: 13, color: G.muted, marginBottom: 8 }}>Status atual</div>
+        <Card style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 12, color: G.muted, marginBottom: 10 }}>Status atual</div>
+
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 10,
-            background: G.white, padding: "10px 20px", borderRadius: 40, marginBottom: 14,
+            background: G.surfaceAlt,
+            border: `1.5px solid ${s.dot}55`,
+            padding: "10px 22px", borderRadius: 40, marginBottom: 16,
           }}>
             <Dot statusId={service.status} size={10} />
-            <span style={{ fontSize: 20, fontWeight: 700, color: s.color }}>{s.label}</span>
+            <span style={{ fontSize: 20, fontWeight: 700, color: s.dot }}>{s.label}</span>
           </div>
-          <div style={{ display: "flex", gap: 5, marginBottom: 8 }}>
+
+          {/* Barra progresso */}
+          <div style={{ display: "flex", gap: 5, marginBottom: 6 }}>
             {STATUS_ORDER.map((id, i) => (
               <div key={id} style={{
-                flex: 1, height: 5, borderRadius: 3,
-                background: i <= stepIdx ? G.green : G.border,
-                opacity: i === stepIdx ? 0.55 : 1,
+                flex: 1, height: 4, borderRadius: 2,
+                background: i < stepIdx ? G.green
+                           : i === stepIdx ? `${G.green}88`
+                           : G.border,
               }} />
             ))}
           </div>
-        </div>
+          <div style={{ display: "flex" }}>
+            {STATUS_ORDER.map((id, i) => (
+              <span key={id} style={{
+                fontSize: 10, flex: 1, textAlign: "center",
+                color: i <= stepIdx ? G.greenText : G.muted,
+              }}>
+                {STATUSES[id].label.split(" ")[0]}
+              </span>
+            ))}
+          </div>
+        </Card>
 
         {/* Mensagem amigável */}
         <div style={{
-          background: G.greenBg, borderRadius: 12, padding: 16,
-          color: "#0F6E56", fontSize: 14, textAlign: "center", marginBottom: 12,
+          background: G.greenBg,
+          border: `1px solid ${G.green}33`,
+          borderRadius: 12, padding: "14px 16px",
+          color: G.greenText, fontSize: 14,
+          textAlign: "center", marginBottom: 12,
         }}>
           {mensagens[service.status]}
         </div>
 
         {/* Histórico */}
-        <div style={{ background: G.white, borderRadius: 14, border: `1.5px solid ${G.border}`, padding: 16, marginBottom: 12 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: G.text, marginBottom: 12 }}>Histórico</div>
+        <Card>
+          <div style={{ fontSize: 12, fontWeight: 600, color: G.muted, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+            Histórico
+          </div>
           {STATUS_ORDER.slice(0, stepIdx + 1).reverse().map((id, i) => (
-            <div key={id} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < stepIdx ? 10 : 0 }}>
-              <Dot statusId={id} size={8} />
-              <div>
-                <div style={{ fontSize: 13, color: G.text }}>{STATUSES[id].label}</div>
-                <div style={{ fontSize: 12, color: G.muted }}>
+            <div key={id} style={{
+              display: "flex", gap: 12, alignItems: "flex-start",
+              marginBottom: i < stepIdx ? 12 : 0,
+            }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: "50%",
+                background: G.surfaceAlt,
+                border: `1.5px solid ${STATUSES[id].dot}55`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0,
+              }}>
+                <Dot statusId={id} size={7} />
+              </div>
+              <div style={{ paddingTop: 4 }}>
+                <div style={{ fontSize: 13, color: G.text, fontWeight: 500 }}>{STATUSES[id].label}</div>
+                <div style={{ fontSize: 12, color: G.muted, marginTop: 1 }}>
                   {i === 0 ? "hoje" : i === 1 ? "ontem" : `há ${i + 1} dias`}
                 </div>
               </div>
             </div>
           ))}
-        </div>
+        </Card>
 
         {/* WhatsApp */}
         <Btn variant="wpp" onClick={() => window.open("https://wa.me/5511999999999", "_blank")}>

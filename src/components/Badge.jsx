@@ -1,3 +1,5 @@
+import { STATUSES } from "../constants/status";
+
 export default function Badge({ statusId }) {
   const s = STATUSES[statusId] || STATUSES.recebido;
   return (

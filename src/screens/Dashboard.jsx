@@ -1,3 +1,13 @@
+import { useState } from "react";
+
+import Screen from "../components/Screen";
+import TopBar from "../components/TopBar";
+import Btn from "../components/Button";
+import Dot from "../components/Dot";
+import Badge from "../components/Badge";
+
+import { G } from "../constants/theme";
+
 export default function Dashboard({ services, onNovo, onOpen }) {
   const [filtro, setFiltro] = useState("todos");
 
@@ -22,9 +32,11 @@ export default function Dashboard({ services, onNovo, onOpen }) {
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         {/* Tabs */}
-        <div style={{ padding: "12px 16px 0", background: G.white, borderBottom: `1px solid ${G.border}` }}>
+        <div style={{ padding: "12px 16px 0", background: G.bg, borderBottom: `1px solid ${G.border}` }}>
           <div style={{
-            display: "flex", background: G.bg, borderRadius: 10, padding: 3, gap: 2,
+            display: "flex", background: G.bgFilter,
+            borderRadius: 10, padding: 3, gap: 2,
+            border: `1px solid ${G.border}`,
           }}>
             {tabs.map(t => (
               <button key={t.id} onClick={() => setFiltro(t.id)} style={{
@@ -32,8 +44,9 @@ export default function Dashboard({ services, onNovo, onOpen }) {
                 border: "none", borderRadius: 8, cursor: "pointer",
                 fontSize: 13, fontFamily: "inherit",
                 fontWeight: filtro === t.id ? 600 : 400,
-                background: filtro === t.id ? G.white : "transparent",
-                color: filtro === t.id ? G.text : G.muted,
+                background: filtro === t.id ? G.green : "transparent",
+                color: filtro === t.id ? "#fff" : G.muted,
+                transition: "all 0.15s",
               }}>
                 {t.label}
               </button>
@@ -52,7 +65,7 @@ export default function Dashboard({ services, onNovo, onOpen }) {
           )}
           {filtrados.map(s => (
             <div key={s.id} onClick={() => onOpen(s)} style={{
-              background: G.white,
+              background: G.surface,
               border: `1.5px solid ${G.border}`,
               borderRadius: 14,
               padding: "14px 16px",
@@ -70,12 +83,13 @@ export default function Dashboard({ services, onNovo, onOpen }) {
                 </div>
               </div>
               <Badge statusId={s.status} />
+              <span style={{ color: G.muted, fontSize: 18 }}>›</span>
             </div>
           ))}
         </div>
 
         {/* Bottom action */}
-        <div style={{ padding: "12px 16px 28px", background: G.white, borderTop: `1px solid ${G.border}` }}>
+        <div style={{ padding: "12px 16px 28px", background: G.bg, borderTop: `1px solid ${G.bg}` }}>
           <Btn onClick={onNovo}>
             <span style={{ fontSize: 20, lineHeight: 1 }}>+</span>
             Novo serviço
@@ -84,11 +98,7 @@ export default function Dashboard({ services, onNovo, onOpen }) {
       </div>
 
       {/* Nav bar */}
-      <div style={{
-        display: "flex",
-        background: G.white,
-        borderTop: `1px solid ${G.border}`,
-      }}>
+      <div style={{ display: "flex", background: G.bg, borderTop: `1px solid ${G.border}` }}>
         {[
           { icon: "▦", label: "Serviços", active: true },
           { icon: "◷", label: "Histórico" },

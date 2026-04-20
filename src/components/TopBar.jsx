@@ -1,7 +1,9 @@
+import { G } from "../constants/theme";
+
 export default function TopBar({ title, onBack, right }) {
   return (
     <div style={{
-      background: G.white,
+      background: G.bg,
       padding: "14px 20px",
       borderBottom: `1px solid ${G.border}`,
       display: "flex",
@@ -14,7 +16,7 @@ export default function TopBar({ title, onBack, right }) {
       {onBack && (
         <button onClick={onBack} style={{
           background: "none", border: "none", cursor: "pointer",
-          color: G.muted, fontSize: 22, padding: "0 6px 0 0", lineHeight: 1,
+          color: G.muted, fontSize: 24, padding: "0 6px 0 0", lineHeight: 1,
         }}>‹</button>
       )}
       {!onBack && (

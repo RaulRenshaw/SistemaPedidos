@@ -2,7 +2,7 @@ import { useState } from "react";
 import { INITIAL_SERVICES } from "../data/services";
 
 export function useServices() {
-  const [services, setServices] = useState(INITIAL_SERVICES);
+  const [services, setServices] = fetch.call.;
 
   function criarServico(novo) {
     setServices(prev => [novo, ...prev]);

@@ -1,3 +1,5 @@
+import { G } from "../constants/theme";
+
 export default function Screen({ children }) {
   return (
     <div style={{

@@ -1,5 +1,5 @@
 
-const STATUSES = {
+export const STATUSES = {
   recebido: { label: "Recebido",    color: "#0C447C", bg: "#E6F1FB", dot: "#378ADD" },
   analise:  { label: "Em análise",  color: "#633806", bg: "#FAEEDA", dot: "#EF9F27" },
   conserto: { label: "Em conserto", color: "#72243E", bg: "#FBEAF0", dot: "#D4537E" },
@@ -7,4 +7,4 @@ const STATUSES = {
   entregue: { label: "Entregue",    color: "#444441", bg: "#F1EFE8", dot: "#888780" },
 };
 
-const STATUS_ORDER = ["recebido", "analise", "conserto", "pronto", "entregue"];
+export const STATUS_ORDER = ["recebido", "analise", "conserto", "pronto", "entregue"];

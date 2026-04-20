@@ -1,3 +1,13 @@
+import { useState } from "react";
+
+import Screen from "../components/Screen";
+import TopBar from "../components/TopBar";
+import Input from "../components/Input";
+import Btn from "../components/Button";
+
+import gerarLink from "../utils/gerarLink";
+import { G } from "../constants/theme";
+
 export default function NovoServico({ onBack, onCreate }) {
   const [nome, setNome] = useState("");
   const [aparelho, setAparelho] = useState("");
@@ -28,28 +38,39 @@ export default function NovoServico({ onBack, onCreate }) {
       <Screen>
         <TopBar title="Serviço criado!" onBack={onBack} />
         <div style={{ flex: 1, padding: "32px 20px 24px", display: "flex", flexDirection: "column", gap: 12 }}>
+
           <div style={{ textAlign: "center", marginBottom: 8 }}>
             <div style={{
               width: 64, height: 64, borderRadius: "50%",
-              background: G.greenBg, margin: "0 auto 16px",
+              background: G.greenBg,
+              border: `1.5px solid ${G.green}44`,
+              margin: "0 auto 16px",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 28, color: G.green,
+              fontSize: 28, color: G.greenText,
             }}>✓</div>
             <div style={{ fontSize: 20, fontWeight: 700, color: G.text }}>{nome}</div>
             <div style={{ fontSize: 14, color: G.muted, marginTop: 4 }}>{aparelho}</div>
           </div>
 
-          {/* Link */}
-          <div style={{ background: G.white, borderRadius: 14, border: `1.5px solid ${G.border}`, padding: 16 }}>
+          {/* Link box */}
+          <div style={{
+            background: G.surface,
+            borderRadius: 14,
+            border: `1.5px solid ${G.border}`,
+            padding: 16,
+          }}>
             <div style={{ fontSize: 12, color: G.muted, marginBottom: 8 }}>Link do cliente</div>
             <div style={{
-              background: G.bg, borderRadius: 10, padding: "12px 14px",
-              fontSize: 14, color: G.green, wordBreak: "break-all", fontWeight: 500,
+              background: G.surfaceAlt,
+              borderRadius: 10, padding: "12px 14px",
+              fontSize: 14, color: G.greenText,
+              wordBreak: "break-all", fontWeight: 500,
+              border: `1px solid ${G.border}`,
             }}>
               {link}
             </div>
             {copiado && (
-              <div style={{ fontSize: 12, color: STATUSES.pronto.color, marginTop: 6 }}>Link copiado!</div>
+              <div style={{ fontSize: 12, color: G.greenText, marginTop: 8 }}>✓ Link copiado!</div>
             )}
           </div>
 
@@ -61,7 +82,10 @@ export default function NovoServico({ onBack, onCreate }) {
             </svg>
             Enviar no WhatsApp
           </Btn>
-          <Btn onClick={() => { setLink(null); setNome(""); setAparelho(""); setProblema(""); }} variant="secondary">
+          <Btn
+            onClick={() => { setLink(null); setNome(""); setAparelho(""); setProblema(""); }}
+            variant="secondary"
+          >
             + Criar outro serviço
           </Btn>
         </div>
@@ -73,12 +97,12 @@ export default function NovoServico({ onBack, onCreate }) {
     <Screen>
       <TopBar title="Novo serviço" onBack={onBack} />
       <div style={{ flex: 1, padding: "20px 20px 0" }}>
-        <Input label="Nome do cliente"  value={nome}     onChange={setNome}     placeholder="Ex: João Silva" />
-        <Input label="Aparelho"         value={aparelho} onChange={setAparelho} placeholder="Ex: iPhone 14, Samsung S23…" />
-        <Input label="Problema"         value={problema} onChange={setProblema} placeholder="Descreva brevemente…" multiline />
+        <Input label="Nome do cliente" value={nome}     onChange={setNome}     placeholder="Ex: João Silva" />
+        <Input label="Aparelho"        value={aparelho} onChange={setAparelho} placeholder="Ex: iPhone 14, Samsung S23…" />
+        <Input label="Problema"        value={problema} onChange={setProblema} placeholder="Descreva brevemente…" multiline />
       </div>
       <div style={{ padding: "12px 20px 28px" }}>
-        <Btn onClick={criar} style={{ opacity: !nome.trim() || !aparelho.trim() ? 0.45 : 1 }}>
+        <Btn onClick={criar} style={{ opacity: !nome.trim() || !aparelho.trim() ? 0.4 : 1 }}>
           Criar e gerar link
         </Btn>
       </div>

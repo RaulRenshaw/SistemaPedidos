@@ -1,9 +1,13 @@
+import { G } from "../constants/theme";
+
 export default function Input({ label, value, onChange, placeholder, multiline }) {
   const shared = {
     width: "100%", padding: "13px 14px",
     border: `1.5px solid ${G.border}`, borderRadius: 10,
-    fontSize: 16, fontFamily: "inherit", color: G.text,
-    background: G.white, outline: "none", resize: "none",
+    fontSize: 16, fontFamily: "inherit",
+    color: G.text,
+    background: G.surface,
+    outline: "none", resize: "none",
     boxSizing: "border-box",
   };
   return (
