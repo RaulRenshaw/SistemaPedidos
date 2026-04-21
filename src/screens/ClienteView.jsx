@@ -1,9 +1,11 @@
 import Screen from "../components/Screen";
 import Btn from "../components/Button";
 import Dot from "../components/Dot";
+import ProgressBar from "../components/ProgressBar";
+import ServiceHistory from "../components/ServiceHistory";
 
 import { G } from "../constants/theme";
-import { STATUSES, STATUS_ORDER } from "../constants/status";
+import { STATUSES } from "../constants/status";
 
 function Card({ children, style }) {
   return (
@@ -13,6 +15,7 @@ function Card({ children, style }) {
       border: `1.5px solid ${G.border}`,
       padding: 16,
       marginBottom: 12,
+      boxShadow: G.boxShadow,
       ...style,
     }}>
       {children}
@@ -20,17 +23,28 @@ function Card({ children, style }) {
   );
 }
 
-export default function ClienteView({ service, onBack }) {
-  const stepIdx = STATUS_ORDER.indexOf(service.status);
-  const s = STATUSES[service.status] || STATUSES.recebido;
+function SectionLabel({ children }) {
+  return (
+    <div style={{
+      fontSize: 11, fontWeight: 700, color: G.muted,
+      textTransform: "uppercase", letterSpacing: "0.07em",
+      marginBottom: 12,
+    }}>
+      {children}
+    </div>
+  );
+}
 
-  const mensagens = {
-    recebido: "Recebemos seu aparelho e em breve iniciaremos a análise.",
-    analise:  "Estamos avaliando o problema do seu aparelho.",
-    conserto: "Estamos trabalhando no seu aparelho.",
-    pronto:   "Seu aparelho está pronto! Pode vir buscar.",
-    entregue: "Aparelho entregue. Obrigado pela preferência!",
-  };
+const MENSAGENS = {
+  recebido: "Recebemos seu aparelho e em breve iniciaremos a análise.",
+  analise:  "Estamos avaliando o problema do seu aparelho.",
+  conserto: "Estamos trabalhando no seu aparelho.",
+  pronto:   "Seu aparelho está pronto! Pode vir buscar.",
+  entregue: "Aparelho entregue. Obrigado pela preferência!",
+};
+
+export default function ClienteView({ service, onBack }) {
+  const s = STATUSES[service.status] || STATUSES.recebido;
 
   return (
     <Screen>
@@ -53,7 +67,7 @@ export default function ClienteView({ service, onBack }) {
         <span style={{ color: G.text, fontSize: 15, fontWeight: 600 }}>TechFix Assistência</span>
       </div>
 
-      <div style={{ flex: 1, padding: "16px 16px", overflowY: "auto" }}>
+      <div style={{ flex: 1, padding: "16px", overflowY: "auto" }}>
 
         {/* Info do cliente */}
         <Card style={{ padding: "4px 16px" }}>
@@ -69,41 +83,20 @@ export default function ClienteView({ service, onBack }) {
           ))}
         </Card>
 
-        {/* Status */}
+        {/* Status atual + progresso */}
         <Card style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 12, color: G.muted, marginBottom: 10 }}>Status atual</div>
-
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            background: G.surfaceAlt,
-            border: `1.5px solid ${s.dot}55`,
-            padding: "10px 22px", borderRadius: 40, marginBottom: 16,
-          }}>
-            <Dot statusId={service.status} size={10} />
-            <span style={{ fontSize: 20, fontWeight: 700, color: s.dot }}>{s.label}</span>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              background: s.bg,
+              border: `1.5px solid ${s.dot}66`,
+              padding: "10px 22px", borderRadius: 40,
+            }}>
+              <Dot statusId={service.status} size={10} />
+              <span style={{ fontSize: 20, fontWeight: 700, color: s.dot }}>{s.label}</span>
+            </div>
           </div>
-
-          {/* Barra progresso */}
-          <div style={{ display: "flex", gap: 5, marginBottom: 6 }}>
-            {STATUS_ORDER.map((id, i) => (
-              <div key={id} style={{
-                flex: 1, height: 4, borderRadius: 2,
-                background: i < stepIdx ? G.green
-                           : i === stepIdx ? `${G.green}88`
-                           : G.border,
-              }} />
-            ))}
-          </div>
-          <div style={{ display: "flex" }}>
-            {STATUS_ORDER.map((id, i) => (
-              <span key={id} style={{
-                fontSize: 10, flex: 1, textAlign: "center",
-                color: i <= stepIdx ? G.greenText : G.muted,
-              }}>
-                {STATUSES[id].label.split(" ")[0]}
-              </span>
-            ))}
-          </div>
+          <ProgressBar statusId={service.status} />
         </Card>
 
         {/* Mensagem amigável */}
@@ -114,36 +107,16 @@ export default function ClienteView({ service, onBack }) {
           color: G.greenText, fontSize: 14,
           textAlign: "center", marginBottom: 12,
         }}>
-          {mensagens[service.status]}
+          {MENSAGENS[service.status]}
         </div>
 
         {/* Histórico */}
         <Card>
-          <div style={{ fontSize: 12, fontWeight: 600, color: G.muted, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            Histórico
-          </div>
-          {STATUS_ORDER.slice(0, stepIdx + 1).reverse().map((id, i) => (
-            <div key={id} style={{
-              display: "flex", gap: 12, alignItems: "flex-start",
-              marginBottom: i < stepIdx ? 12 : 0,
-            }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: "50%",
-                background: G.surfaceAlt,
-                border: `1.5px solid ${STATUSES[id].dot}55`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0,
-              }}>
-                <Dot statusId={id} size={7} />
-              </div>
-              <div style={{ paddingTop: 4 }}>
-                <div style={{ fontSize: 13, color: G.text, fontWeight: 500 }}>{STATUSES[id].label}</div>
-                <div style={{ fontSize: 12, color: G.muted, marginTop: 1 }}>
-                  {i === 0 ? "hoje" : i === 1 ? "ontem" : `há ${i + 1} dias`}
-                </div>
-              </div>
-            </div>
-          ))}
+          <SectionLabel>Histórico</SectionLabel>
+          <ServiceHistory
+            history={service.history || [{ status: service.status, at: null }]}
+            currentStatus={service.status}
+          />
         </Card>
 
         {/* WhatsApp */}

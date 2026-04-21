@@ -1,32 +1,39 @@
-// ─── Paleta dark ─────────────────────────────────────────────────────────────
-// bg        = fundo da tela (mais escuro)
-// surface   = cards / containers (camada acima do bg)
-// surfaceAlt= cards dentro de cards (camada +1)
-// border    = bordas sutis
-// borderHi  = bordas com mais contraste (hover, selecionado)
-// text      = texto principal
-// muted     = texto secundário / labels
+// ─── Paleta dark refinada ─────────────────────────────────────────────────────
+//
+// Hierarquia de profundidade (do mais escuro ao mais claro):
+//   bg → surface → surfaceAlt
+//
+// Bordas são sempre sutis — apenas para separar camadas, não decorar.
+// Texto principal tem contraste alto. Muted tem contraste mínimo WCAG AA.
 
 export const G = {
   // Brand
-  green:      "#1D9E75",
-  greenBg:    "#0a2e22",      // fundo tinted verde (mensagens, sucesso)
-  greenText:  "#4fd4a8",      // texto verde sobre fundo escuro
+  green:      "#1DB97A",      // verde principal — botões, ações
+  greenBg:    "#0d2e1e",      // fundo de avisos/mensagens verdes
+  greenText:  "#5edfaa",      // texto verde legível sobre fundo escuro
   wpp:        "#25D366",
 
-  // Backgrounds
-  bg:         "#080f1e",      // fundo da tela
-  bgFilter:   "#0e1a35",      // fundo do seletor de tabs
-  surface:    "#0f1d38",      // cards principais
-  surfaceAlt: "#162342",      // cards internos / link box
-  list:       "#0f1d38",      // cards da lista
+  // Backgrounds — escalonados com diferença perceptível mas suave
+  bg:         "#0d1117",      // fundo da tela (GitHub dark inspired)
+  bgFilter:   "#161b22",      // fundo do seletor de tabs
+  surface:    "#161b22",      // cards principais
+  surfaceAlt: "#1c2330",      // cards internos, inputs, link box
 
-  // Borders
-  border:     "#1e3060",      // borda padrão (sutil)
-  borderHi:   "#2a4280",      // borda destacada
+
+  bgStatus: "#111827",        // fundo principal
+  surfaceStatus: "#1E293B",   // cards
+  borderStatus: "#334155",
+
+
+  // Bordas — uma única espessura sutil, cor coerente com a profundidade
+  border:     "#30363d",      // borda padrão (neutro, sem saturação azul)
+  borderHi:   "#484f58",      // borda em hover / foco
 
   // Text
-  text:       "#e8eef8",      // texto principal (quase branco, não ofusca)
-  muted:      "#5a7099",      // texto secundário
-  white:      "#FFFFFF",      // branco puro (avatares, ícones)
+  text:       "#e6edf3",      // texto principal — alto contraste, levemente frio
+  muted:      "#8b949e",      // texto secundário — WCAG AA sobre surface
+
+  white:      "#FFFFFF",
+
+  boxShadow: "0 10px 25px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.05)"
 };

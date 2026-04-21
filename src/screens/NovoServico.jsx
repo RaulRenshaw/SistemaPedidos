@@ -9,11 +9,11 @@ import gerarLink from "../utils/gerarLink";
 import { G } from "../constants/theme";
 
 export default function NovoServico({ onBack, onCreate }) {
-  const [nome, setNome] = useState("");
+  const [nome,     setNome]     = useState("");
   const [aparelho, setAparelho] = useState("");
   const [problema, setProblema] = useState("");
-  const [link, setLink] = useState(null);
-  const [copiado, setCopiado] = useState(false);
+  const [link,     setLink]     = useState(null);
+  const [copiado,  setCopiado]  = useState(false);
 
   function criar() {
     if (!nome.trim() || !aparelho.trim()) return;
@@ -29,43 +29,49 @@ export default function NovoServico({ onBack, onCreate }) {
   }
 
   function enviarWpp() {
-    const msg = encodeURIComponent(`Olá ${nome}! Acompanhe o conserto do seu aparelho aqui: https://${link}`);
+    const msg = encodeURIComponent(
+      `Olá ${nome}! Acompanhe o conserto do seu aparelho aqui: https://${link}`
+    );
     window.open(`https://wa.me/?text=${msg}`, "_blank");
   }
 
+  /* ── Tela de confirmação após criar ── */
   if (link) {
     return (
       <Screen>
         <TopBar title="Serviço criado!" onBack={onBack} />
         <div style={{ flex: 1, padding: "32px 20px 24px", display: "flex", flexDirection: "column", gap: 12 }}>
 
+          {/* Ícone de sucesso */}
           <div style={{ textAlign: "center", marginBottom: 8 }}>
             <div style={{
               width: 64, height: 64, borderRadius: "50%",
               background: G.greenBg,
-              border: `1.5px solid ${G.green}44`,
+              border: `1.5px solid ${G.green}55`,
               margin: "0 auto 16px",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 28, color: G.greenText,
-            }}>✓</div>
+              fontSize: 26, color: G.greenText,
+            }}>
+              ✓
+            </div>
             <div style={{ fontSize: 20, fontWeight: 700, color: G.text }}>{nome}</div>
             <div style={{ fontSize: 14, color: G.muted, marginTop: 4 }}>{aparelho}</div>
           </div>
 
           {/* Link box */}
           <div style={{
-            background: G.surface,
-            borderRadius: 14,
-            border: `1.5px solid ${G.border}`,
-            padding: 16,
+            background:   G.surface,
+            borderRadius: 12,
+            border:       `1px solid ${G.border}`,
+            padding:      16,
           }}>
             <div style={{ fontSize: 12, color: G.muted, marginBottom: 8 }}>Link do cliente</div>
             <div style={{
-              background: G.surfaceAlt,
-              borderRadius: 10, padding: "12px 14px",
-              fontSize: 14, color: G.greenText,
-              wordBreak: "break-all", fontWeight: 500,
-              border: `1px solid ${G.border}`,
+              background:   G.surfaceAlt,
+              borderRadius: 8, padding: "12px 14px",
+              fontSize:     14, color: G.greenText,
+              wordBreak:    "break-all", fontWeight: 500,
+              border:       `1px solid ${G.border}`,
             }}>
               {link}
             </div>
@@ -93,6 +99,7 @@ export default function NovoServico({ onBack, onCreate }) {
     );
   }
 
+  /* ── Formulário ── */
   return (
     <Screen>
       <TopBar title="Novo serviço" onBack={onBack} />
@@ -102,7 +109,10 @@ export default function NovoServico({ onBack, onCreate }) {
         <Input label="Problema"        value={problema} onChange={setProblema} placeholder="Descreva brevemente…" multiline />
       </div>
       <div style={{ padding: "12px 20px 28px" }}>
-        <Btn onClick={criar} style={{ opacity: !nome.trim() || !aparelho.trim() ? 0.4 : 1 }}>
+        <Btn
+          onClick={criar}
+          style={{ opacity: !nome.trim() || !aparelho.trim() ? 0.4 : 1 }}
+        >
           Criar e gerar link
         </Btn>
       </div>
